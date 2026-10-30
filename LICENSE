@@ -1,22 +1,21 @@
-山海行 (TerraWay) 专有软件最终用户许可协议与版权声明 (EULA)
+MIT License
 
-版权所有 (c) 2026 山海行 (TerraWay) 项目开发组。
-保留所有权利 (All Rights Reserved)。
+Copyright (c) 2026 山海行 (TerraWay) Project
 
-重要须知：
-本软件为专有闭源商业软件（Proprietary Software），受中华人民共和国著作权法、计算机软件保护条例以及国际版权条约的严格保护。
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-1. 授权范围：
-   - 开发者授予最终用户一项个人的、非排他性的、不可转让的、免费的有限许可，仅用于在个人移动终端设备上安装和运行本软件以进行户外辅助导航。
-   - 本许可不构成任何软件所有权或源代码专利的转让。
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-2. 权利限制与禁止行为：
-   - 严禁对本软件进行反编译、反汇编、反向工程、解码、提取二进制组件或试图获取本软件的任何源代码与专有算法；
-   - 严禁对本软件安装包（APK）进行二次打包、修改签名、篡改版权信息或剔除安全声明；
-   - 严禁将本软件或其衍生版本用于任何商业销售、出租、技术出包或商业运营用途，除非取得软件著作权人的明确书面授权。
-
-3. 无担保与免责声明：
-   - 本软件按“现状 (AS IS)”提供，不提供任何形式的明示或暗示担保。
-   - 使用者须遵守国家法律法规及户外安全准则，在荒野环境中使用本软件产生的所有风险均由使用者独立承担。
-
-如您不同意本协议的任何条款，请勿下载、安装或使用本软件。
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
