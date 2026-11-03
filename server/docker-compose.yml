@@ -1,0 +1,14 @@
+services:
+  terraway-server:
+    build: .
+    container_name: terraway-server
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      - TERRAWAY_ADDR=:8080
+      - TERRAWAY_DATA_DIR=/app/data
+      - TERRAWAY_JWT_SECRET=${TERRAWAY_JWT_SECRET:-terraway-prod-jwt-secret-key-2026}
+      - TERRAWAY_ADMIN_KEY=${TERRAWAY_ADMIN_KEY:-terraway-admin-2026}
+    volumes:
+      - ./data:/app/data
