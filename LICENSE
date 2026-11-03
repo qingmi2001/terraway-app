@@ -1,0 +1,21 @@
+TERRAWAY PROPRIETARY & CLOSED SOURCE LICENSE (EULA)
+
+Copyright (c) 2026 山海行 (TerraWay) Project / 内蒙旅游在线 (NMLYZX).
+All rights reserved.
+
+1. GRANT OF LICENSE:
+The software applications, binaries (.apk), and accompanying materials distributed through this repository are licensed, not sold, exclusively for personal, non-commercial outdoor navigation, exploration, and emergency safety purposes.
+
+2. PROPRIETARY & CLOSED SOURCE NOTICE:
+The source code, proprietary sensor fusion algorithms, GNSS signal processing engines, and backend architecture of "山海行 (TerraWay)" are strictly proprietary and confidential trade secrets of the project author.
+NO SOURCE CODE IS LICENSED HEREIN. This repository serves exclusively as a public showcase, documentation hub, and binary distribution channel.
+
+3. RESTRICTIONS:
+You may NOT:
+a) Decompile, disassemble, reverse engineer, or attempt to derive the source code of any distributed binaries or applications.
+b) Modify, adapt, translate, or create derivative works based upon the software.
+c) Sell, rent, lease, sub-license, redistribute, or commercially exploit the software or its associated roadbook datasets without explicit written authorization.
+d) Remove or alter any proprietary notices, labels, or watermarks.
+
+4. DISCLAIMER OF WARRANTY:
+THE SOFTWARE AND DATASETS ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. UNDER NO CIRCUMSTANCES SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY ARISING FROM OUTDOOR USE, ACCIDENTS, MISORIENTATION, OR HARDWARE MALFUNCTIONS.
