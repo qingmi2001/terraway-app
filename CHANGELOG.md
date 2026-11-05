@@ -1,5 +1,22 @@
 # 山海行 (TerraWay) - 版本更新日志 (CHANGELOG)
 
+## [v0.8.2-release+35] - 2026-11-05
+
+### 彻底找回并固化全国 62 条官方精选路线无损注入机制与 v0.8.2 稳定版 (Curated 62 Routes Permanent Injection & v0.8.2 Release)
+
+#### 核心新增与故障根治
+- **彻底根治 VPS 服务端 62 条国内官方精选路线丢失问题 (Permanent 62 Routes UPSERT)**:
+  - **根因根除**：排查发现历史代码中 `seedPublicRoadbooks()` 存在 `if count > 0 { return }` 判断，若数据库中已有残留或用户路书，系统会直接跳过 62 条精选路线的初始化注入，导致后台与接口路线呈现空白；
+  - **无损自适应 UPSERT 引擎**：彻底废弃易受阻断的 `count > 0` 短路返回，重构为严谨的 `INSERT INTO public_roadbooks ... ON CONFLICT(id) DO UPDATE SET status = 'approved', roadbook_json = excluded.roadbook_json, description = excluded.description` 幂等同步机制；
+  - **开机自动强校验与状态纠正**：服务端每次启动时自动检查全部 62 条官方基准路线，凡缺失者即刻自动补全，凡状态异常者强制更正为 `status = 'approved'` 上线状态，确保在任何全新或存量 VPS 环境下 100% 稳定呈现全国 7 大片区 62 条顶级经典越野与自驾路网；
+  - **全量表结构补齐**：在 `publicDb` 建表语句中正式固化 `description` 路线避坑与实操备忘字段，消除潜在缺少列报错。
+
+- **三端单一事实来源版本号升级至 v0.8.2 (Build 35)**:
+  - `pubspec.yaml`、`app_config.dart`、`build.gradle`、`update_checker_service.dart`、`server/main.go`、`index.html` 与 `console.html` 统一升级至 `version: 0.8.2+35`；
+  - 严格保持 `isRemoteVersionStrictlyNewer` 语义化版本检测规则，确保已安装 `0.8.2` 的用户纯净无打扰。
+
+---
+
 ## [v0.8.1-release+34] - 2026-11-05
 
 ### 全历史功能大清查与基准大一统版：集结 v0.1.7 ~ v0.8.0 (含 +24 ~ +33 全部分支) 全部功能零遗漏合流 (Full Historical Feature Audit & Grand Unification Release)
