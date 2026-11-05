@@ -1,5 +1,77 @@
 # 山海行 (TerraWay) - 版本更新日志 (CHANGELOG)
 
+## [v0.8.1-release+34] - 2026-11-05
+
+### 全历史功能大清查与基准大一统版：集结 v0.1.7 ~ v0.8.0 (含 +24 ~ +33 全部分支) 全部功能零遗漏合流 (Full Historical Feature Audit & Grand Unification Release)
+
+#### 核心清查与全量合流总览
+针对近期多分支演进中部分历史更新被覆盖的问题，开展全历史版本（`v0.1.7` ~ `v0.8.0`，涵盖 `v0.7.8+24` 至 `v0.7.8+33` 全部专项演进）与三端代码库的拉网式清查，将所有历史已配功能与最新升级 100% 集中整合至 **v0.8.1 (Build 34)** 统一基准版：
+
+1. **Flutter 手机手持端 App (`v0.8.1+34`) 全量集成**:
+   - **探险者中心规范化 4 大分类二级管理体系**：完整恢复【账号与云端同步】、【户外导航与离线数据】、【显示与界面偏好】、【系统、关于与更新】二级分类卡片；
+   - **独立二级功能弹窗全恢复**：完整恢复【运动模式与到站阈值选择器】（越野自驾 150m / 山林徒步 20m / 骑行探险 40m / 应急搜救 10m）、【离线切片与走廊地图管理】（缓存张数、占用 MB、一键清理與走廊预载）、【忘记密码？邮箱验证码秒级重置】弹窗、【已登录探险者资料免验证码弹窗直改】；
+   - **全景地图与领航双模全特性合流**：开机默认 100m 比例尺 (`zoom = 13.32`)、右上角【🧭 手机头一直向北 (正北朝上) ⇋ 🚗 运动方向朝上 (车头向上)】双视角 360° 旋转切换、领航模式顶部防遮挡自适应下移 (`topPadding = 126.0`)、高德卫星图/路网/等高线 `CoordinateTransform` (WGS-84 ⇄ GCJ-02) 毫厘级防漂移纠偏、导航与返航醒目鲜红导引线（带底层微光光晕与雷达同心圆信标）；
+   - **自由盲走录制解耦与一键起点返航**：引入显式导航状态锁，无规划路线开启轨迹录制绝不挂载默认路线，顶部显示【🟢 自由循迹录制中 (无规划路线)】，支持中途一键【原路返航】（自动锁定开始记录时刻的起始点为终点）及随时【结束】保存；
+   - **Android 14+ 前台保活服务、WakeLock 防休眠、返回键防误退与会话自愈恢复**：完整恢复 `GeolocatorLocationService` 前台常驻通知与防休眠锁、`singleTask` 启动模式、主界面 `PopScope` 返回键拦截（支持 `moveTaskToBack` 最小化后台运行）与 `SharedPreferences` 实录草稿崩溃自恢复；
+   - **V1 + V2 + V3 全版本开发者签名加固与严格语义化版本比对**：`build.gradle` 强制启用 `v1SigningEnabled true`、`v2SigningEnabled true`、`enableV3Signing = true` 并关闭 `minifyEnabled` 根除 R8 组件重命名冲突，CI 注入 `apksigner verify` 强制校验；升级检测采用 `isRemoteVersionStrictlyNewer` 严格 SemVer 对比，彻底根除安装最新版后重复提示升级的故障；
+   - **全国 62 条精选路线双向大区检索与中文规范化字典**：完整支持内蒙古、新疆、西藏、川西、青海、华北东北、华东华南中英文/拼音双向匹配，地形地貌、运动场景、车辆装备准入（全 9 类规格）100% 中文徽章展示。
+
+2. **VPS 高安全 Go 服务端 (`v0.8.1`) 全量集成**:
+   - **双引擎邮件网关与 30 分钟长效验证码**：完整集成标准 SMTP 直连（465 SSL/TLS 与 587 STARTTLS，支持 163/QQ/企业邮）+ Resend API 双通道网关、战术暗黑 HTML 邮件模板、60 秒防刷冷却、30 分钟有效期与邮箱星号隐私掩码（`maskEmail`）；
+   - **全套账号安全与资料接口双路径兼容**：注册必填安全邮箱绑定、多凭据级联登录（普通用户/手机号/安全邮箱 -> 管理员表 -> MasterKey 兜底）、找回密码双通道（邮箱验证码重置 + 手机号昵称双重核验）、个人资料获取与修改（同时兼容 `/api/v1/user/profile` 与 `/api/v1/user/profile/get`，支持 Web 验证码核验修改与 App 已登录直改）；
+   - **公共精选路线与会员报送路线全属性后台治理**：支持管理员在 `/admin` 后台直接弹窗编辑公共精选路线与会员报送路线的大区归属、地形地貌、运动场景、车辆装备准入、难度星级、耗时与说明（防止会员填报有误），五大系统数据字典启动自动 UPSERT 补全；
+   - **App 版本发布一键智能解析与中英双语自动互译**：支持粘贴 GitHub Release 链接后一键提取版本号、构建号、APK 大小（MB）、拉取更新说明并自动将中文更新日志翻译为英文 Changelog，同时自动下载缓存 APK 至本地并提供 `https://api.terraway.cn/api/v1/app/download/latest` 官方高速直链。
+
+3. **Cloudflare Pages 官网 (`index.html`) 与工作台 (`console.html`) 全量集成**:
+   - **安全脱敏与双节点高可用容灾**：全面隐匿内部 API 节点域名，内置 `api.terraway.cn` 与 `api.terrawaygps.com` 自动故障转移重试；
+   - **官方高速直链下载与双通道找回密码**：全站下载按钮直连 VPS 官方高速下载接口，注册支持安全邮箱必填与验证码核验，找回密码支持【📧 邮箱验证码（秒级重置）】与【📱 手机号与昵称校验】双通道切换；
+   - **大屏工作台全功能闭环**：支持探险者个人资料全字段安全修改（带邮箱验证码与可选改密）、新建私有路书全属性填报（大区、地貌、场景、车辆准入、难度星级）、62 条精选路线大区秒级筛选与一键克隆、车队 6 位短码协同。
+
+---
+
+## [v0.8.0-release] - 2026-11-04
+
+### 自由录制路线解耦、导引/返航目标红线恢复与严格语义化版本升级检测 (Free REC Decoupling, Target Guidance Red Line & Strict SemVer Check)
+
+#### 核心新增与架构升级
+- **车辆装备准入全字典与中文规范化 (Vehicle Requirement Full Coverage & Localization)**:
+  - 彻底治理全平台（VPS 后台、Cloudflare Pages 控制台、Flutter 移动端）车辆装备准入英文代号暴露问题；
+  - 补全所有准入规格的中英文映射（包括 `4x4_extreme` 极限四驱双锁、`4x4_high_clearance` 高底盘硬派四驱、`at_tire` 全地形AT胎四驱、`suv_standard` 标准家用SUV、`on_foot` 徒步/重装装备、`suv_awd` 城市SUV适时四驱、`dual_diff_lock` 硬派四驱带双差速锁、`extreme_lifted` 极限改装高离地升高四驱、`satellite_phone_req` 要求携带卫星通讯电话）；
+  - 全端统一渲染为带有装备层级标识的高辨识度中文徽章。
+
+- **会员报送路线全属性填报与 VPS 管理后台纠错调整体系 (Member Roadbook Reporting & Admin Route Adjustment)**:
+  - **会员填报闭环**：在 Cloudflare Pages 网页端新建私有路书弹窗中，全面扩充大区归属、地形地貌、运动场景、车辆准入装备要求与难度星级必选参数，报送路线属性完整闭环；
+  - **管理端更正防错机制**：针对会员填报可能出现的偏差或笔误，在 VPS 管理控制台（`/admin`）会员报送路线列表中新增【修改】弹窗，管理员可自由对会员路线的名称、大区、地貌、场景、装备要求与难度进行一键校正并保存至云端数据库；
+  - **云端持久化表结构自适应迁移**：服务端 SQLite 数据库 `user_roadbooks` 表增加 `region`、`terrain`、`category`、`vehicle_req`、`difficulty` 字段，启动时自适应安全热迁移。
+
+- **App 版本发布一键智能解析与中英双语更新日志自动互译引擎 (Smart Release URL Parser & Auto Bilingual Changelog)**:
+  - **直链一键解析**：在 VPS 后台版本发布管理页，填入 APK 下载直链（如 GitHub Release 直链）后，支持一键点击【🔍 一键解析并自动填充】；
+  - **版本元数据秒级自动填充**：自动通过 GitHub API 或链接模式匹配提取版本号（Version Name）、版本构建号（Version Code）、APK 安装包大小（MB），并自动拉取 GitHub Release 说明；
+  - **双语智能互译引擎**：内置越野自驾与高精度手持机专业词典互译引擎，自动将中文更新说明实时转换为地道专业的英文 Changelog，大幅降低运维发布门槛。
+
+- **公共精选路线管理与地形地貌治理 (Curated Route Metadata Governance)**:
+  - **管理后台编辑与动态调整**：在 VPS 管理控制台（`/admin`）公共精选路线列表新增【编辑】操作，管理员可自由更正调整大区归属、地形地貌、运动场景、车辆准入装备要求、难度星级、耗时与推荐时节；
+  - **路线录入界面新增地形地貌**：在路线导入/录入弹窗中新增【地形地貌特征 (Terrain)】、【准入车辆/装备】与【探险难度星级】必选下拉菜单，彻底补全录入链路；
+  - **全端中文友好名称显示**：全端（VPS 管理台、Cloudflare Pages 控制台、Flutter 移动端）告别底层字段名（如 `desert_dune`、`offroad`、`4x4_extreme` 等英文键值暴露问题），全面映射呈现为清晰规范的中文名称（如 `流动沙丘/沙漠`、`雪山冰川/极地`、`越野自驾 4x4`、`极限四驱双锁`）。
+
+- **无线路自由盲走轨迹录制彻底解耦 (Free Track REC Decoupling)**:
+  - 根除无规划路线录制轨迹时，自动挂载预置库布齐沙漠路线的严重状态混淆问题；
+  - 引入显式的 `isNavigating` 导航状态控制：仅在探险者主动开启领航或原路返航时才进入导引模式，自由盲走录制状态下顶部状态栏明确显示【🟢 自由循迹录制中 (无规划路线)】，绝不强制挂载任何路线；
+  - 首页交互式地图在未开启路线导航时仅呈现自身定位与实走青蓝轨迹，彻底杜绝地图自动出现陌生路线干扰。
+- **导航与原路返航目标点位高反差鲜红导引线恢复 (Target Guidance Red Line Restoration)**:
+  - 在全景交互式地图与卫星图层中，全面恢复自身车辆当前定位 (`userOffset`) 直达当前目标航点 (`currentTarget`) 的动态导航红线 (Bearing Line)；
+  - 采用高饱和度发光鲜红主线 (`0xFFFF0033`) 与底层动态光晕双层绘制，并在目标点位叠加高亮雷达同心圆信标，无论在卫星影像还是等高线地图中均醒目清晰，一眼洞悉车头与目标相对航向；
+  - 原路返航与多点路书循迹时，随航点自动到达推进，红线即时无缝指向下一站，彻底解决“返航和导航地图到点位的红线没有了”的故障。
+- **升级检测严格语义化版本比对引擎 (Strict SemVer Update Engine)**:
+  - 彻底根治“安装了最新版依然反复弹窗要求升级”的循环误报问题；
+  - 移除原历史代码中会导致版本号虚高（产生 85+ 假版本号）的计算公式，重构 `isRemoteVersionStrictlyNewer` 严格语义化比对引擎；
+  - 当远端版本号等于或低于当前已安装版本（如当前为 0.8.0，远端亦为 0.8.0）时，严格判定为“当前已是最新版本”，绝对静默不弹窗，彻底保障探险者纯净体验。
+- **一键退出路线导引与自由恢复**:
+  - 顶部导航卡片常驻显式【退出】红色快捷按钮，点击即可随时退出当前导引并回到自由地图模式；
+  - 仪表盘与手持机模式返回首页时，路线与录制状态严格同步。
+
+---
+
 ## [v0.7.9-release] - 2026-11-04
 
 ### 精选大区拼音/中文双向检索修复、账号资料安全修改体系与 GCJ-02 坐标漂移毫厘纠偏 (Curated Region Fix, Profile Update & GCJ-02 Calibration)
@@ -19,6 +91,195 @@
   - **深入剖析 50m~150m 漂移本质**：定位硬件输出原生 WGS-84 国际坐标，而国内高德/腾讯切片依法采用 GCJ-02 火星坐标系加密，未经纠偏直接叠加必然产生几十至上百米的非线性偏离；
   - **交互式地图视口与矢量层双向校准**：集成严密的 `CoordinateTransform` 算法库，在渲染高德卫星图与等高线切片时，自动将自身 GPS 经纬度、车头朝向航向扇面与航迹点转化为 GCJ-02 像素点精准映射，光标严丝合缝对齐卫星航拍车辙；
   - **数据标准纯净性保障**：脱网录制的原始轨迹与导出的 GPX / KML 交换文件继续保持纯正 WGS-84 国际大地坐标，确保与专业手持机、Garmin（佳明）设备 100% 互通。
+
+---
+
+
+## [v0.7.8-release+33] - 2026-11-04
+
+### 手机端已登录资料免验证码弹窗直改、VPS管理后台全字段档案维护与高精度火星坐标GCJ-02纠偏校准 (App Profile Direct Edit, VPS Full User Management & GCJ-02 Coordinate Calibration)
+
+#### 核心升级与定位校准
+- **手机 App 端已登录探险者资料弹窗直接修改 (App Profile Modal Direct Edit)**:
+  - 在主界面头像二级管理菜单（【账号与云端同步】）及云端保险箱管理面板中，新增【修改探险者资料】快捷入口；
+  - 针对已登录探险者采用弹窗小窗口（`_showEditProfileDialog`）免去重复验证码烦扰，支持一键实时拉取并直接修改呼号昵称、座驾车型、个性签名与紧急联系人姓名电话，账号名称严格只读锁定；
+  - 服务端 `/api/v1/user/profile/update` 增加会话态直改弹性支持，普通资料提交秒级完成入库并实时同步刷新界面。
+- **VPS 管理后台探险者全套档案全字段编辑维护 (VPS Admin Full User Profile Editing)**:
+  - 优化 `/api/v1/admin/user/update` 接口，全面开放昵称、邮箱、座驾车型、性别、宣言、紧急联系人、实名认证状态及封禁状态全字段编辑；
+  - 管理后台会员档案列表新增【修改资料】操作按钮与标准模态弹窗，管理员可直接在后台纠正与维护任何探险者的全量信息。
+- **高精度火星坐标系 (GCJ-02) 地图自动纠偏与定位消除漂移 (WGS-84 to GCJ-02 Real-Time Coordinate Calibration)**:
+  - 深度解析国内地图测绘 50m~150m 偏移的本质成因（手机硬件 GPS 传感器输出 WGS-84 原始坐标，而国内高德卫星影像与矢量路网底图经国家测绘安全加偏为 GCJ-02）；
+  - 新增 `CoordinateTransform` 椭球体高精纠偏算法引擎，在渲染高德卫星图与路网底图时，自动将自身定位点、实时运动朝向箭头与规划路线转换对齐，彻底消除 50m~150m 的道路漂移，使车辆位置严丝合缝对齐真实卫星道路。
+
+---
+
+## [v0.7.8-release+32] - 2026-11-04
+
+### 官网PAGE界面安全脱敏、VPS官方高速直链全面替代GitHub、注册邮箱与验证码完善及登录高可用容灾 (PAGE UI Hardening, Official VPS Download Replacement, Registration Email Flow & High-Availability Auth Failover)
+
+#### 核心优化与体验升级
+- **官网 PAGE 界面完全隐匿后台内部技术节点地址 (Technical Address Privacy Masking)**:
+  - 登录模态弹窗与工作台侧边栏彻底移除 `api.terraway.cn` 等底层服务节点展示，界面统一呈现面向用户的“探险者专属云端同步与路书管理”及“云端服务正常 在线”；
+  - 异常提示信息脱敏，所有网络超时及服务异常统一规范为用户友好的“无法连接至云端服务，请检查网络连接或稍后重试”，不向公众暴露内部架构。
+- **安装包下载全面切换为 VPS 官方高速直链 (Zero-GitHub Official VPS Download Direct Link)**:
+  - 首页首屏行动按钮与底部安装下载大按钮，全面将外部 GitHub Releases 链接替换为自建 VPS 官方高速下载直链（`https://api.terraway.cn/api/v1/app/download/latest`）；
+  - 页面初次载入自动静默同步服务端最新发布版本（`/api/v1/app/check_update`），无论后台何时发布新版 APK，前端均自动绑定最新直链，告别海外 GitHub 打不开或 404 困扰。
+- **注册表单完善安全邮箱必填与邮件验证码联动 (Registration Email Mandatory Flow & Verification Code)**:
+  - 注册表单规范化提供“安全电子邮箱 (必填)”输入项及配套的【获取验证码】按钮，支持 60 秒倒计时防刷限制与 30 分钟验证码核验；
+  - 支持可选验证码即时核验注册与免验证码快速注册双重弹性机制，兼顾安全性与转化率。
+- **全面修复 PAGE 页面登录故障与双通道容灾重试 (High-Availability Auth Failover & Resilient Backend)**:
+  - 服务端 `handleLogin` 优化多层级联校验机制：普通探险者表 -> 管理员表 -> 超级管理应急兜底密钥，避免密码核验分支互斥导致管理员在官网登录失败；
+  - 前端引入高可用 `apiCall` 智能请求网关，在多域名节点（`api.terraway.cn` 与 `api.terrawaygps.com`）之间执行自动故障转移与透明重试，彻底解决单节点网络抖动或 DNS 传播延迟导致的页面登录失败。
+
+---
+
+## [v0.7.8-release+31] - 2026-11-04
+
+### 服务端必填安全邮箱绑定、SMTP直连/Resend双引擎、邮箱隐私掩码提示与30分钟长效验证码机制 (Mandatory Email Binding, Dual SMTP/Resend Engine, Masked Email Hint & 30-Min Expiration)
+
+#### 核心升级与发信体系增强
+- **用户档案数据新增必填安全邮箱字段 (Mandatory User Email & Schema Migration)**:
+  - SQLite `users` 数据表新增 `email TEXT NOT NULL DEFAULT ''` 字段，并内置开机热迁移逻辑，自动将原有账号为邮箱格式的历史用户增量同步至 `email` 列；
+  - 注册接口 (`/api/v1/auth/register`) 实施邮箱必填与格式校验，全面打通探险者账号与安全邮箱的唯一性强绑定关系；
+  - 支持可选的注册场景验证码防刷校验，Web 端与手机 App 端注册表单同步增加安全电子邮箱必填输入项；
+  - 登录接口 (`/api/v1/auth/login`) 全面兼容账号名、手机号或安全邮箱多凭据无缝登录。
+- **找回密码自动检索注册邮箱与隐私星号掩码提示 (Automatic Email Lookup & Masked Email Hint)**:
+  - 密码找回验证码接口 (`/api/v1/auth/email/send-code`) 支持传入账号或邮箱，系统自动深度检索绑定的注册邮箱并进行发信；
+  - 接口响应提示信息及客户端弹窗自动应用掩码保护算法（如 `ex***er@outdoors.cn`、`nm***zx@163.com`），确保既明确告知用户邮件去向，又严密防止个人敏感邮箱信息泄露。
+- **验证码有效期延长至 30 分钟与精准超时拦截 (30-Minute Code Expiration & Graceful Timeout Interception)**:
+  - 验证码有效期由 5 分钟延长至 30 分钟 (1800 秒)，充分适应户外野外移动网络弱信号及邮件延迟场景；
+  - 超出 30 分钟核验时，精准返回中文提示：“验证码已超时过期（有效期30分钟），请重新申请获取验证码”；
+  - 内置定时垃圾回收器，过期半小时后自动安全淘汰清理，兼顾高并发内存控制与友好提示。
+- **SMTP 直连 (163/QQ/企业邮) 与 Resend API 双通道发信引擎 (Dual SMTP & Resend Dispatch Gateway)**:
+  - 服务端原生内置标准 SMTP 协议发信客户端（支持 465 端口 SSL/TLS 加密直连及 587/25 端口 STARTTLS），彻底解决国内轻量云 VPS 25 端口封禁痛点；
+  - 完美支持网易 163 邮箱授权码、QQ 邮箱授权码、阿里云/腾讯企业邮等任意邮件服务器，同时无缝兼容 Resend API 国际云网关；
+  - 统一发信网关具备高容错降级机制：SMTP 优先 -> Resend 次之 -> 本地控制台 Mock 日志兜底。
+
+---
+
+## [v0.7.8-release+30] - 2026-11-04
+
+### 前台定位保活服务、锁屏防休眠、返回键防误退与会话自恢复机制 (Foreground Service, WakeLock, Back-Key Interception & Session Auto-Recovery)
+
+#### 核心修复与后台保活
+- **Android 前台定位保活服务与 WakeLock 锁屏防休眠 (Android Foreground Service & WakeLock)**:
+  - 在 `TrackRecorderService` 中接入 `AndroidSettings` 与 `ForegroundNotificationConfig`，开启前台定位保活服务与系统 WakeLock 防休眠锁；
+  - 手机熄屏、锁屏或切换至其他应用时，系统自动挂载常驻通知，GPS 硬件持续在后台以 1Hz 高精度接收卫星位移，绝不被系统降频或杀进程；
+  - 清单文件适配 Android 14 规范，补充 `FOREGROUND_SERVICE`、`FOREGROUND_SERVICE_LOCATION` 与 `POST_NOTIFICATIONS` 权限。
+- **主界面返回键防误退拦截与最小化后台驻留 (Home Screen PopScope & Back-Key Interception)**:
+  - 主界面引入 `PopScope` 拦截物理返回键，杜绝用户误按返回键直接导致 Activity 销毁与轨迹中断；
+  - 正在记录轨迹时按返回键弹出防误退卡片，支持一键【后台运行 (最小化)】（通过底层 `moveTaskToBack` 将应用静默退至后台，内存状态与定位保持 100% 存活，桌面再次点击秒级恢复）；
+  - 只有用户点击【结束行程】并保存后才允许彻底退出应用。
+- **Activity 单任务栈与会话持久化双重防崩溃恢复 (SingleTask LaunchMode & Session Auto-Recovery)**:
+  - `AndroidManifest.xml` 将主 Activity 启动模式升级为 `singleTask`，桌面点击图标永远直达当前运行任务，绝不重新创建空白实例；
+  - 实录会话引入 `SharedPreferences` 增量草稿持久化，即使极端情况下系统内存吃紧杀死应用，再次打开自动毫秒级恢复正在进行的实测航线、点数与计时器。
+
+---
+
+## [v0.7.8-release+29] - 2026-11-04
+
+### 修复 Gradle AGP 8.x V3 签名 DSL 语法（`enableV3Signing = true`）与 CI 编译校验 (AGP 8.x V3 Signing DSL Fix)
+
+#### 核心修复
+- **修正 Android Gradle Plugin 8.x 签名配置语法**:
+  - 修复 `build.gradle` 中 `Could not find method v3SigningEnabled()` 引起的 Gradle 编译失败；
+  - 规范遵循 AGP 8.x DSL 规范，更正为 `enableV3Signing = true`，配合 `v1SigningEnabled true` 与 `v2SigningEnabled true`，确保 APK 获得完备的三代开发者签名；
+  - CI 流水线中配备 `apksigner verify --verbose` 自动双重验证。
+
+---
+
+## [v0.7.8-release+28] - 2026-11-04
+
+### 开发者证书签名加固、V1/V2/V3全版本支持与R8混淆冲突彻底根除 (V1/V2/V3 Signature Hardening & R8 Manifest Desync Fix)
+
+#### 核心修复与签名加固
+- **V1 + V2 + V3 全版本签名方案强制注入 (Full V1/V2/V3 Signing Scheme)**:
+  - 显式在 `signingConfigs.release` 中启用 `v1SigningEnabled true`、`v2SigningEnabled true` 与 `v3SigningEnabled true`；
+  - 动态安全解析 `upload-keystore.jks` 本地路径，防止多模块路径漂移导致的签名丢失；
+  - 同时将 `debug` 构建类型的签名配置绑定为正式开发者证书，防止调试包因默认 Debug 证书被国内手机品牌误判拦截。
+- **R8 混淆类重命名冲突彻底根除 (R8 Repackageclasses Conflict Elimination)**:
+  - 彻底关闭 `minifyEnabled true` 与 `-repackageclasses`，消除 R8 字节码优化时移动/重命名组件类名导致 Android 系统安装器解析清单失败（报“软件包似乎无效/缺乏开发者证书”）的严重缺陷；
+  - 显式保留 `com.nmlyzx.gps.MainActivity`，保持纯正原生组件结构；
+  - CI 编译流程中新增 `apksigner verify --verbose --print-certs` 强制签名核验卡口，确保出包 100% 具备有效开发者证书。
+- **旧包签名冲突安装指南 (Install Conflict Resolution)**:
+  - 明确说明若手机此前安装过旧版本或调试版 APK，因签名证书变更会触发系统级“证书不一致/缺乏开发者证书”拦截，需先卸载手机上的旧版 App 后再行安装新版。
+
+---
+
+## [v0.7.8-release+27] - 2026-11-04
+
+### 领航地图悬浮控件防遮挡优化与图层视角按钮下移 (HUD Safe Area Layout & Map Controls Anti-Occlusion)
+
+#### 核心修复与交互布局调优
+- **领航模式悬浮控制区防遮挡下移 (Floating Map Controls Anti-Occlusion Padding)**:
+  - 彻底解决全屏领航模式下顶部路线/航点信息 HUD 遮挡右上角视角切换、定位回正锁与图层选择器的问题；
+  - 为 `InteractiveMapView` 引入自适应 `topPadding` 布局参数，领航模式下精准沉降至 `126.0px`，比例尺 HUD 与右侧操作悬浮胶囊平滑顺延至顶部信息卡片下方，彻底避免重叠遮挡；
+  - 统一右侧三大悬浮控制胶囊（图层选择器、双视角切换器、定位回正跟踪锁）为一致的圆形战术卡扣设计与 10px 呼吸间距，触控无误触、视觉规整清晰。
+
+---
+
+## [v0.7.8-release+26] - 2026-11-04
+
+### 自由巡航状态纯化、一键原路返航至起点、代码字符修复、导航指引红线与车头朝向旋转模式 (Pure Cruise State, Start-Point Retrace, Code Text Fix, Red Nav Guide Line & Course-Up Map Rotation)
+
+#### 核心修复与交互重构
+- **自由巡航与路线领航状态解耦 (Decouple Free Cruise from Default Routes)**:
+  - 彻底解决点击“开始记录轨迹”自动套用巴丹吉林/库布齐默认路线名的问题，自由录制状态下顶部仅纯粹显示【🧭 巡航中】；仅在用户明确选定路线时才显示具体路线名；
+  - 自由录制状态下点击【原路返航】，自动将终点精准锁定为**开始记录时刻的定位起点**，彻底告别误跳至无关路线起点的问题。
+- **结束录制弹窗与保存提示代码字符修复 (Stop Recording Code Leakage Fix)**:
+  - 修复 `_handleStopFreeRecording` 弹窗与保存 SnackBar 中字符串插值转义字符导致的原始变量代码泄漏问题；
+  - 弹窗真实呈现“本次实录共 X 点，里程: Y km”，确认保存后精准显示保存的轨迹名称。
+- **线路导航指引红线 (High-Visibility Red Navigation Guidance Line)**:
+  - 导航模式下，在全景卫星图/地图上自动从自身实时定位拉出一条鲜明高亮的战术纯红引导虚线（带底层微光宽光晕），直接穿透指向下一个目标航点（并在目标点显示红色雷达脉动波纹）；
+  - 无论是否偏航或绕行避障，驾驶员和探险者均可一眼明确下一站的绝对方位与相对航向。
+- **地图多视角模式：手机头向北 vs 运动方向朝上 (Map Orientation Modes: North-Up & Course-Up)**:
+  - 新增地图视角切换悬浮胶囊按键，支持两种核心视角模式即时切换：
+    1. **【🧭 手机头一直向北 (正北朝上)】**：地图正北恒定朝向屏幕上方，车头箭头与罗盘针自适应旋转，适合对照地形等高线与大局观识图；
+    2. **【🚗 运动方向朝上 (车头向上)】**：地图跟随车辆对地真航向/物理车头动态平滑旋转，前进方向永远朝向屏幕 12 点钟上方，转弯符合直觉认知；
+  - 采用全视口 360° 旋转对角线超采样与触控投影纠偏，杜绝黑角空边与手势拖动漂移。
+
+---
+
+## [v0.7.8-release+25] - 2026-11-04
+
+### 线路领航无缝穿透、开机 100m 比例尺锁定与探险者中心二级管理重构 (Navigation Route Passthrough, 100m Map Scale & Two-Level Profile Management)
+
+#### 核心修复与交互重构
+- **主界面“进入领航”直达路线库与数据穿透 (Route Selection & Navigation Passthrough)**:
+  - 彻底修复主界面点击“进入领航”跳过选线直接进入空白/默认导航的问题，点击“进入领航”统一打开路线列表（`RoadbookListScreen`）；
+  - 全量打通【🌐 精选路线】（全国 62 条经典越野、穿沙、重装徒步基准路书）与【📱 我的路线】（个人私有路书与点位）；
+  - 支持精选路线全国 7 大片区即时分类筛选、航点列表查看与一键开启领航。
+- **开机与冷启动默认地图比例尺精准锁定 100m (Default Map Scale to 100m)**:
+  - 将底层瓦片反投影初始缩放级别调整为 `13.32`，严格匹配墨卡托投影下的 100m 物理距离；
+  - 比例尺 HUD 引入梯级平滑吸附机制，软件新打开出图即稳定呈现“100 m · Z13.3”，视野清晰开阔，山脉、等高线与道路标注重合度与细腻度达到最佳平衡。
+- **探险者中心全面升级规范化二级管理体系 (Two-Level Profile & Settings Management)**:
+  - 根除以往一级菜单杂乱平铺 9 个项的混乱排版，按现代主流工业级 APP 标准重构为 4 大核心分类卡片：
+    1. **账号与云端同步**：探险者账号安全（登录/注册/节点设置/修改密码）、找回密码安全中心（邮箱验证码秒级重置）、客户工单与申诉留言；
+    2. **户外导航与离线数据**：新增独立二级弹窗【运动模式与到站阈值选择器】（越野自驾 150m、山林徒步 20m、骑行探险 40m、应急搜救 10m）、新增二级管理【离线切片与走廊地图管理】（展示已缓存切片张数与占用 MB，支持一键清空与走廊下载指引）、北斗/GPS物理星历遥测；
+    3. **显示与界面偏好**：昼夜显示主题切换、系统多语言一键切换；
+    4. **系统、关于与更新**：检测版本更新、免责声明与安全须知。
+
+---
+
+## [v0.7.8-release+24] - 2026-11-04
+
+### 邮件验证码通道全量贯通、找回密码全自动闭环与三端发版 (Email Verification Code, Password Reset & Multi-End Release)
+
+#### 核心新增与架构升级
+- **Resend 邮件通道与服务端发信系统 (`server/main.go`)**:
+  - 全面打通现代开发者级邮件发信 API (Resend)，告别昂贵且资质苛刻的商业短信通道；
+  - 新增 `POST /api/v1/auth/email/send-code`：支持 6 位随机安全验证码生成、60 秒防刷频冷却机制、5 分钟有效期内存失效淘汰；
+  - 新增 `POST /api/v1/auth/password/reset-by-email`：验证码核验、防重放单次作废、Bcrypt 加盐慢哈希更新密码与审计工单归档；
+  - 内置优雅的 Mock 测试模式与战术暗黑风格 HTML 邮件模板，直达国内 QQ/163 与海外主流邮箱收件箱。
+- **Cloudflare Pages 官网工作台找回密码双通道集成 (`index.html`)**:
+  - 在找回密码模块中重构为双通道体验：默认启用【📧 邮箱验证码（秒级重置）】，输入邮箱即可一键获取验证码并带 60 秒倒计时；
+  - 密码重置成功后自动回填登录表单并平滑切回登录页；保留【📱 手机号与昵称双重核验】作为脱网备用通道。
+- **Flutter 手机手持端 App 闭环 (`CloudSyncService` & `HomeScreen`)**:
+  - `CloudSyncService` 封装 `sendEmailCode` 与 `resetPasswordByEmail` 两个标准云端接口；
+  - 首页抽屉登录弹窗中升级【忘记密码？使用邮箱验证码快速重置】交互对话框，支持输入邮箱、获取验证码（带 60s 倒计时）、设置新密码一键重置。
+- **工程与容器化运维升级**:
+  - `docker-compose.yml` 与 `deploy_vps.sh` 原生支持 `TERRAWAY_RESEND_API_KEY` 与 `TERRAWAY_EMAIL_FROM` 环境变量注入；
+  - `pubspec.yaml` 与 `build.gradle` 版本统一升级至 `v0.7.8+24`。
 
 ---
 

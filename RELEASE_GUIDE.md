@@ -12,18 +12,18 @@
 
 ## 二、 如何向本项目发布新版 APK 安装包？
 
-当您在私有环境（或本地）编译产出新版安装包（如 `山海行_全地形手持离线导航_v0.7.8.apk`）后，只需 1 分钟即可向全网用户发布：
+当您在私有环境（或本地）编译产出新版安装包（如 `山海行_全地形手持离线导航_v0.8.1.apk`）后，只需 1 分钟即可向全网用户发布：
 
 1. **登录 GitHub 并进入本仓库页面**:
    - 访问 `https://github.com/qingmi2001/terraway-app`；
 2. **进入 Releases 页面**:
    - 在右侧侧边栏找到 **Releases** ➔ 点击 **Draft a new release**（草稿新发布）；
 3. **填写版本信息**:
-   - **Tag version (版本标签)**: 填写 `v0.7.8`（或对应最新版本号）；
-   - **Release title (标题)**: 填写 `山海行 (TerraWay) 全地形手持离线 GPS 导航 APP (v0.7.8)`;
+   - **Tag version (版本标签)**: 填写 `v0.8.1`（或对应最新版本号）；
+   - **Release title (标题)**: 填写 `山海行 (TerraWay) 全地形手持离线 GPS 导航 APP (v0.8.1)`;
    - **Description (升级说明)**: 直接从 [CHANGELOG.md](CHANGELOG.md) 复制最新版本的更新日志；
 4. **上传安装包二进制**:
-   - 将您本地的 `山海行_全地形手持离线导航_v0.7.8.apk`（以及通用包 `terraway_gps_v0.7.8.apk`）直接拖入下方的 **Attach binaries by dropping them here** 虚线框中；
+   - 将您本地的 `山海行_全地形手持离线导航_v0.8.1.apk`（以及通用包 `terraway_gps_v0.8.1.apk`）直接拖入下方的 **Attach binaries by dropping them here** 虚线框中；
 5. **点击发布**:
    - 点击绿色按钮 **Publish release**；
    - 全球用户即可瞬间在仓库首页和 Releases 页面高速下载安装！
