@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Version-v0.8.1%20(Build%2023)-00FF66?style=flat-square&logo=android" alt="Version" />
+  <img src="https://img.shields.io/badge/Version-v0.8.5%20(Build%2023)-00FF66?style=flat-square&logo=android" alt="Version" />
   <img src="https://img.shields.io/badge/Platform-Android%208.0%2B-blue?style=flat-square&logo=google" alt="Platform" />
   <img src="https://img.shields.io/badge/Offline-100%25%20Air--Gapped-success?style=flat-square" alt="Offline" />
   <img src="https://img.shields.io/badge/License-Proprietary%20%2F%20Closed--Source-lightgrey?style=flat-square" alt="License" />
@@ -24,14 +24,14 @@
 您可以通过以下渠道直接下载最新正式版 Android 安装包（即装即用，支持主流华为、小米、OPPO、vivo、荣耀、三星及各类三防手持机终端）：
 
 - 🚀 **GitHub Releases 官方极速下载**：[点击前往 Releases 下载最新 APK 安装包](https://github.com/qingmi2001/terraway-app/releases)
-  - 正式包名称：`山海行_全地形手持离线导航_v0.8.1.apk`
+  - 正式包名称：`山海行_全地形手持离线导航_v0.8.5.apk`
   - 核心架构：ARM64-v8a / armeabi-v7a 通用自适应包
 - 🌐 **Cloudflare Pages 全球 CDN 官网下载**：通过我们的官方发布站获取最新安装镜像与路线图集；
 - ☁️ **云盘官方网盘归档备份**：进入官方发布目录直接获取全套路线数据集与历史镜像。
 
 ---
 
-## 🌟 核心九大硬核优势 (v0.8.1 重磅升级)
+## 🌟 核心九大硬核优势 (v0.8.5 重磅升级)
 
 ### 1. 🗺️ 首页全景地图模式与右下角悬浮按钮单手快切
 - **开机即地图**：默认进入全景交互式离线地图，支持单指平滑拖拽、双指捏合缩放与双击放大；
@@ -71,7 +71,7 @@
 
 详见完整更新日志：[CHANGELOG.md](CHANGELOG.md)
 
-- **v0.8.1 (2026-11-03)**：
+- **v0.8.5 (2026-11-03)**：
   - 首页升级默认全景地图模式，增加右下角战术悬浮按钮（FAB）秒级双模快切；
   - 动态瓦片多级缓存引擎与路书沿线走廊 5km 离线批量预下载；
   - 全国 62 条经典越野/徒步官方基准路书体系上线；

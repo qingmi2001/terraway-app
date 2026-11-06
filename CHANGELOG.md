@@ -1,3 +1,36 @@
+## [v0.8.5] - 2026-11-06 (Build 38 · 全协议车机互联投屏与横/竖/超宽全画幅座舱版)
+
+### 核心新增与架构升级 (山海行 · TerraWay)
+- **全协议车机互联与无线/有线投屏中心 (`CarCastingService` + `com.nmlyzx.gps/car_cast`)**:
+  - 全面兼容市面上 **7 大主流车机互联与投屏方式**：**华为 HiCar 智行**、**ICCOA Carlink (小米 CarWith / OPPO Car+ / vivo Jovi InCar)**、**Android Auto / Apple CarPlay**、**百度 CarLife+**、**Type-C DisplayPort / HDMI 有线副屏 & 三星 DeX / 华为电脑模式**、**Miracast / Wi-Fi Display 无线同屏镜像** 以及 **前挡风玻璃 HUD 镜像反射投屏**。
+  - 原生 Android 层集成 `DisplayManager.DisplayListener` 实时外接屏幕热插拔探针、车载常亮唤醒锁 (`FLAG_KEEP_SCREEN_ON`)、系统无线投屏一键拉起与屏幕方向动态锁定。
+  - `AndroidManifest.xml` 注入 `CAR_LAUNCHER`、`CAR_MODE`、`automotive_app_desc.xml`、`HICAR_APP`、`iccoa.carlink`、`baidu.carlife` 与 `android.max_aspect=4.0` 全规格车载元数据。
+- **全画幅车机中控屏幕自适应座舱 (`CarCockpitLayoutMode` + `car_cockpit_layouts.dart`)**:
+  - **16:9 / 16:10 / 4:3 主流横屏双栏座舱**：左半屏 360° 旋转高反差罗盘大指针，右半屏四维数据矩阵与避险备忘卡片；
+  - **9:16 / 3:4 竖屏大屏分体座舱**：专为比亚迪旋转竖屏、特斯拉 Model Y/X、蔚来、福特烈马 Bronco 等竖置大屏打造，上半屏实时 3D 卫星地形图 + 下半屏高反差罗盘与大触控热区；
+  - **21:9 / 24:9 / 32:9 超宽带鱼屏三栏联屏座舱**：专为理想 L7/L8/L9 双联屏、奔驰/林肯大连屏与车载带鱼副驾屏打造，实现【左罗盘 + 中全屏卫星地图 + 右路书进度与四维数据矩阵】三栏同屏无切换领航；
+  - **前挡风玻璃 HUD 抬头显示反射座舱**：纯黑底高反差荧光绿超大字号车速/距离/方位矩阵，支持一键【水平镜像翻转】，夜间平放中控台即可投射清晰正像至前挡风玻璃；
+  - **副驾领航员大按键盲操遥控面板 (`Co-Driver Remote Deck`)**：当车机大屏投屏看图时，副驾或驾驶员可用超大防颠簸热区一键切点、现场标注暗坑/营地/水源。
+- **全端中文品牌名统一锁定为【山海行】**，并 100% 延续 v0.8.4 模块化架构与全局 5 秒自动消失提示横幅 (`globalToastNotifier`)。
+
+---
+
+## [v0.8.4+37] - 2026-11-05
+
+### 🏗️ 全工程模块化与解耦架构重磅升级 (Modular Architecture Refactoring & Global 5s Toast Engine)
+1. **VPS 服务端 8,000 行单体代码模块化重构 (`server/`)**:
+   - **静态模板彻底分离 (`server/templates/`)**: 将后台登录页 (`admin_login.html`) 与管理主控台 (`admin_dashboard.html`) 从 Go 字符串硬编码中剥离为独立的标准 HTML5 静态模板文件，采用 `//go:embed` 编译期嵌入与磁盘热加载双保险，并改用 `strings.NewReplacer` 替代 `fmt.Sprintf`，从根源上 100% 杜绝 CSS/JS 百分号转义错位故障。
+   - **8 大职责模块精细拆分**: 将原 7,981 行 `main.go` 无损拆分为 8 个高内聚模块文件：`main.go` (520行，核心配置/限流/JWT中间件/路由)、`models_db.go` (524行，数据库建模与热迁移)、`models_seed_routes.go` (1,148行，62条精选路线幂等种子)、`handlers_auth.go` (975行，登录注册与双通道邮件验证码)、`handlers_user.go` (471行，用户资料与1MB自定义头像)、`handlers_sync_roadbook.go` (832行，轨迹路书云同步与GPX引擎)、`handlers_admin_core.go` (752行，管理后台核心接口与模板渲染)、`handlers_admin_routes.go` (884行，数据字典、三维路书治理与发版智能解析互译)。
+2. **Flutter 首页 3,000 行代码组件化拆分 (`lib/widgets/dialogs/`)**:
+   - 将原 3,064 行的 `lib/screens/home_screen.dart` 精简至 **1,112 行**（单文件体积骤降 **64%**）。
+   - 独立拆分为 5 个高内聚弹窗与抽屉组件：`explorer_menu_sheet.dart` (440行，探险者中心二级分类抽屉)、`sport_and_tiles_dialogs.dart` (189行，运动模式与离线切片管理弹窗)、`cloud_vault_dialog.dart` (462行，云端保险箱登录注册与改密弹窗)、`user_profile_dialogs.dart` (502行，个人资料编辑、邮箱重置密码与工单弹窗)、`safety_and_recording_dialogs.dart` (407行，安全须知、盲走打点、原路返航与退出拦截弹窗)。
+3. **全局根级 5 秒自动销毁悬浮提示引擎 (`globalToastNotifier` & `showAutoSnackBar`)**:
+   - 在 `lib/main.dart` 根视图构建独立于页面路由栈的全局悬浮提示层，统一接管全应用 7 大模块共 **55 处临时提示框**。
+   - 由独立 5 秒纯 Dart 硬件定时器直接驱动，彻底免疫安卓定制系统无障碍服务 (`accessibleNavigation`) 常驻拦截与跨路由跳转动画冻结，满 5 秒 100% 自动消失，并支持随手点击或横滑关闭。
+4. **全系统版本号统一升级至 v0.8.4 (Build 37)**:
+   - 三端全量配置与容器构建脚本 (`Dockerfile`) 同步升级至 `v0.8.4+37`，100% 完整继承 v0.8.3 全部功能零删减。
+
+
 ## [v0.8.3+36] - 2026-11-05
 
 ### 🚀 重大功能升级与核心体验突破
